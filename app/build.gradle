@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.ANDROID_COMPILE_SDK_VERSION
@@ -25,11 +26,30 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     // androidX
     implementation "androidx.appcompat:appcompat:$ANDROIDX_APPCOMPAT_VERSION"
 
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION"
+    implementation "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION"
+    implementation "com.squareup.okhttp3:logging-interceptor:$OK_HTTP_LOGGING_INTERCEPTOR"
+
+    // rx
+    implementation "io.reactivex.rxjava2:rxandroid:$RX_ANDROID_VERSION"
+    implementation "io.reactivex.rxjava2:rxjava:$RX_JAVA_VERSION"
+
     // test
     testImplementation "junit:junit:$JUNIT_VERSION"
+    testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
     androidTestImplementation "androidx.test:runner:$ANDROIDX_TESTRUNNER_VERSION"
+    androidTestImplementation "androidx.test:rules:$ANDROIDX_TESTRUNNER_VERSION"
     androidTestImplementation "androidx.test.espresso:espresso-core:$ANDROIDX_ESPRESSO_VERSION"
+}
+
+repositories {
+    mavenCentral()
 }
