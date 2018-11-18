@@ -7,7 +7,10 @@ public final class TvShowFactory {
     private TvShowFactory() {
     }
 
-    public static TvShow createTvShow(Result result){
-        return new TvShow(result.getName());
+    public static TvShow createTvShow(Result result) {
+        return new TvShow(result.getName(),
+                result.getOverview(),
+                result.getPosterPath(), // TODO
+                result.getVoteAverage());
     }
 }

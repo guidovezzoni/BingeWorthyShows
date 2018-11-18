@@ -38,6 +38,9 @@ ext {
     ANDROIDX_LIFECYCLE_VERSION = '2.0.0'
     ANDROIDX_CONSTRAINT_LAYOUT_VERSION = '2.0.0-alpha2'
 
+    // google
+    GOOGLE_MATERIAL_VERSION = '1.1.0-alpha01'
+
     // retrofit
     RETROFIT_VERSION = "2.2.0"
     OK_HTTP_LOGGING_INTERCEPTOR = '3.5.0'
