@@ -31,6 +31,8 @@ dependencies {
 
     // androidX
     implementation "androidx.appcompat:appcompat:$ANDROIDX_APPCOMPAT_VERSION"
+    implementation "androidx.lifecycle:lifecycle-extensions:$ANDROIDX_LIFECYCLE_VERSION"
+    implementation "androidx.constraintlayout:constraintlayout:$ANDROIDX_CONSTRAINT_LAYOUT_VERSION"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
