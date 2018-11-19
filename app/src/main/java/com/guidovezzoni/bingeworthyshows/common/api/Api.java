@@ -11,6 +11,10 @@ public class Api {
     // API version
     private static final String API_VERSION = "/3";
 
+    // config endpoint
+    public static final String CONFIGURATION = "/configuration";
+
+
     // TV endpoint
     private static final String TV_ROOT = "/tv";
 

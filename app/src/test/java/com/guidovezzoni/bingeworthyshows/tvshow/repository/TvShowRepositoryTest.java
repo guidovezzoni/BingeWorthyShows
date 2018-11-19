@@ -1,6 +1,6 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.repository;
 
-import com.guidovezzoni.bingeworthyshows.common.model.datalayer.PopularResult;
+import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.source.TvShowsNetworkSource;
 
 import org.junit.Test;
@@ -26,10 +26,10 @@ public class TvShowRepositoryTest {
 
     @Test
     public void whenGetThenSourceInvoked() {
-        PopularResult popularResult = new PopularResult();
+        ResultsReponse resultsReponse = new ResultsReponse();
 
-        TestObserver<PopularResult> testObserver = TestObserver.create();
-        when(tvShowsNetworkSource.get(2)).thenReturn(Single.just(popularResult));
+        TestObserver<ResultsReponse> testObserver = TestObserver.create();
+        when(tvShowsNetworkSource.get(2)).thenReturn(Single.just(resultsReponse));
 
         sut.get(2)
                 .subscribe(testObserver);

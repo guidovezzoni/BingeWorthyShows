@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class PopularResult {
+public class ResultsReponse {
 
     @SerializedName("page")
     @Expose

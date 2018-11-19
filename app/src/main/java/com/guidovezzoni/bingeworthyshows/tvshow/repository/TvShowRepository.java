@@ -1,6 +1,6 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.repository;
 
-import com.guidovezzoni.bingeworthyshows.common.model.datalayer.PopularResult;
+import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.source.TvShowsNetworkSource;
 
 import io.reactivex.Single;
@@ -16,7 +16,7 @@ public class TvShowRepository {
         this.tvShowsNetworkSource = tvShowsNetworkSource;
     }
 
-    public Single<PopularResult> get(int page) {
+    public Single<ResultsReponse> get(int page) {
         return tvShowsNetworkSource.get(page);
     }
 }

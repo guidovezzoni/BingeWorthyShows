@@ -2,7 +2,7 @@ package com.guidovezzoni.bingeworthyshows.tvshow.repository.source;
 
 import com.guidovezzoni.bingeworthyshows.common.api.ApiHandler;
 import com.guidovezzoni.bingeworthyshows.common.api.MovieDbServiceApi;
-import com.guidovezzoni.bingeworthyshows.common.model.datalayer.PopularResult;
+import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,10 +40,10 @@ public class TvShowsNetworkSourceTest {
 
     @Test
     public void whenGetThenApiHandlerInvoked() {
-        PopularResult popularResult = new PopularResult();
+        ResultsReponse resultsReponse = new ResultsReponse();
 
-        TestObserver<PopularResult> testObserver = TestObserver.create();
-        final Response<PopularResult> success = Response.success(popularResult);
+        TestObserver<ResultsReponse> testObserver = TestObserver.create();
+        final Response<ResultsReponse> success = Response.success(resultsReponse);
         when(movieDbServiceApi.getTvPopular("mock key", 3))
                 .thenReturn(Single.just(success));
 

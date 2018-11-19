@@ -1,7 +1,7 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
 import com.guidovezzoni.bingeworthyshows.common.factory.TvShowFactory;
-import com.guidovezzoni.bingeworthyshows.common.model.datalayer.PopularResult;
+import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.TvShowRepository;
 
@@ -9,6 +9,9 @@ import java.util.List;
 
 import io.reactivex.Single;
 
+/**
+ * This class forwards data to the app from the repository, providing any logic if required.
+ */
 public class TvShowService {
     private final TvShowRepository tvShowRepository;
 
@@ -18,7 +21,7 @@ public class TvShowService {
 
     public Single<List<TvShow>> get(int page) {
         return tvShowRepository.get(page)
-                .map(PopularResult::getResults)
+                .map(ResultsReponse::getResults)
                 .flattenAsObservable(results -> results)
                 .map(TvShowFactory::createTvShow)
                 .toList();

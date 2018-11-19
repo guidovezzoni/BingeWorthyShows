@@ -1,6 +1,6 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
-import com.guidovezzoni.bingeworthyshows.common.model.datalayer.PopularResult;
+import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.Result;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.TvShowRepository;
@@ -29,19 +29,19 @@ public class TvShowServiceTest {
 
     @Test
     public void whenGetThenRepositoryInvoked() {
-        PopularResult popularResult = new PopularResult();
+        ResultsReponse resultsReponse = new ResultsReponse();
 
         Result result = new Result();
         result.setName("Agents of Shield");
-        popularResult.getResults().add(result);
+        resultsReponse.getResults().add(result);
 
         result = new Result();
         result.setName("Gotham");
-        popularResult.getResults().add(result);
+        resultsReponse.getResults().add(result);
 
         TestObserver<List<TvShow>> testObserver = TestObserver.create();
         when(tvShowRepository.get(4))
-                .thenReturn(Single.just(popularResult));
+                .thenReturn(Single.just(resultsReponse));
 
         sut.get(4)
                 .subscribe(testObserver);
