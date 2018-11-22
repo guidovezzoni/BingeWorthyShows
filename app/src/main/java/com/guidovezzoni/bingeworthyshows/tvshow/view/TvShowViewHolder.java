@@ -1,4 +1,4 @@
-package com.guidovezzoni.bingeworthyshows.tvshow;
+package com.guidovezzoni.bingeworthyshows.tvshow.view;
 
 import android.view.View;
 import android.widget.ImageView;

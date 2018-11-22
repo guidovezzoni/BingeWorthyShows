@@ -9,15 +9,15 @@ import io.reactivex.Single;
 /**
  * This class forwards data to the app from the repository, providing any logic if required.
  */
-public class ConfigurationService {
+public class ConfigService {
     private final ConfigRepository configRepository;
 
-    public ConfigurationService(ConfigRepository configRepository) {
+    public ConfigService(ConfigRepository configRepository) {
         this.configRepository = configRepository;
     }
 
     public Single<MovieDbSettings> get() {
         return configRepository.get()
-                .map(MovieDbFactory::createMovieDbFactory);
+                .map(MovieDbFactory::createMovieDbSetting);
     }
 }

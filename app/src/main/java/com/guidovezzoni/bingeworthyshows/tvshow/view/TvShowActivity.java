@@ -1,4 +1,4 @@
-package com.guidovezzoni.bingeworthyshows.tvshow;
+package com.guidovezzoni.bingeworthyshows.tvshow.view;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +7,7 @@ import com.guidovezzoni.bingeworthyshows.MainApplication;
 import com.guidovezzoni.bingeworthyshows.R;
 import com.guidovezzoni.bingeworthyshows.common.di.ViewModelFactory;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
+import com.guidovezzoni.bingeworthyshows.tvshow.TvShowViewModel;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
+public class TvShowActivity extends AppCompatActivity {
+    private static final String TAG = TvShowActivity.class.getSimpleName();
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     private TvShowViewModel tvShowViewModel;

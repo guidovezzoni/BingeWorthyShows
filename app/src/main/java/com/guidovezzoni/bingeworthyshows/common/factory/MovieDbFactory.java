@@ -8,7 +8,7 @@ public final class MovieDbFactory {
     private MovieDbFactory() {
     }
 
-    public static MovieDbSettings createMovieDbFactory(ConfigurationResponse configurationResponse){
+    public static MovieDbSettings createMovieDbSetting(ConfigurationResponse configurationResponse){
         return new MovieDbSettings(configurationResponse.getImages().getBaseUrl());
     }
 }
