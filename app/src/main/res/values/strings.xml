@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Binge Worthy Shows</string>
+
+    <!--item tvshow-->
+    <string name="item_tv_show_poster_content_description">Tv Show Poster</string>
+
 </resources>

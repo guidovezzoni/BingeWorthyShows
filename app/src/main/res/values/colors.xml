@@ -3,4 +3,10 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!--item tvshow-->
+    <color name="item_tvshow_background">@android:color/black</color>
+    <color name="item_tvshow_overlay_background">#C0000000</color>
+    <color name="item_tvshow_text_color">@android:color/white</color>
+
 </resources>

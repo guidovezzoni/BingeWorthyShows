@@ -1,6 +1,6 @@
 package com.guidovezzoni.bingeworthyshows.config;
 
-import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.MovieDbSettings;
+import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.MdbSettings;
 import com.guidovezzoni.bingeworthyshows.common.utils.MdbSettingsUtilsKt;
 import com.guidovezzoni.bingeworthyshows.config.repository.ConfigRepository;
 
@@ -16,7 +16,7 @@ public class ConfigService {
         this.configRepository = configRepository;
     }
 
-    public Single<MovieDbSettings> get() {
+    public Single<MdbSettings> get() {
         return configRepository.get()
                 .map(MdbSettingsUtilsKt::createFromConfigurationResponse);
     }
