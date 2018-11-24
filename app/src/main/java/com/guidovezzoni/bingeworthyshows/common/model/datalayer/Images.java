@@ -29,7 +29,7 @@ public class Images {
     private List<String> profileSizes = new ArrayList<>();
     @SerializedName("still_sizes")
     @Expose
-    private List<String> stillSizes = new ArrayList<String>();
+    private List<String> stillSizes = new ArrayList<>();
 
     public String getBaseUrl() {
         return baseUrl;

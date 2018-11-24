@@ -1,8 +1,8 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
-import com.guidovezzoni.bingeworthyshows.common.factory.TvShowFactory;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
+import com.guidovezzoni.bingeworthyshows.common.utils.TvShowUtilsKt;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.TvShowRepository;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class TvShowService {
         return tvShowRepository.get(page)
                 .map(ResultsReponse::getResults)
                 .flattenAsObservable(results -> results)
-                .map(TvShowFactory::createTvShow)
+                .map(TvShowUtilsKt::createFromResult)
                 .toList();
     }
 }

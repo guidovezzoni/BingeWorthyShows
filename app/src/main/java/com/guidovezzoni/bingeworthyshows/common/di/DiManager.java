@@ -2,8 +2,10 @@ package com.guidovezzoni.bingeworthyshows.common.di;
 
 import com.guidovezzoni.bingeworthyshows.common.api.ApiHandler;
 import com.guidovezzoni.bingeworthyshows.common.api.MovieDbServiceApi;
+import com.guidovezzoni.bingeworthyshows.common.base.CacheHelper;
 import com.guidovezzoni.bingeworthyshows.config.ConfigService;
 import com.guidovezzoni.bingeworthyshows.config.repository.ConfigRepository;
+import com.guidovezzoni.bingeworthyshows.config.repository.source.ConfigCacheSource;
 import com.guidovezzoni.bingeworthyshows.config.repository.source.ConfigNetworkSource;
 import com.guidovezzoni.bingeworthyshows.tvshow.TvShowService;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.TvShowRepository;
@@ -20,7 +22,8 @@ public class DiManager {
         ApiHandler<MovieDbServiceApi> apiHandler = new ApiHandler<>(MovieDbServiceApi.class, baseUrl);
 
         ConfigNetworkSource configNetworkSource = new ConfigNetworkSource(apiHandler, apiKey);
-        ConfigRepository configRepository = new ConfigRepository(configNetworkSource);
+        ConfigCacheSource configCacheSource = new ConfigCacheSource(new CacheHelper());
+        ConfigRepository configRepository = new ConfigRepository(configNetworkSource, configCacheSource);
         ConfigService configService = new ConfigService(configRepository);
 
         TvShowsNetworkSource tvShowsNetworkSource = new TvShowsNetworkSource(apiHandler, apiKey);

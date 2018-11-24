@@ -1,8 +1,8 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
 import com.guidovezzoni.bingeworthyshows.common.base.BaseViewModel;
-import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.MovieDbSettings;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
+import com.guidovezzoni.bingeworthyshows.common.utils.TvShowUtilsKt;
 import com.guidovezzoni.bingeworthyshows.config.ConfigService;
 
 import java.util.List;
@@ -21,12 +21,8 @@ public class TvShowViewModel extends BaseViewModel {
         return tvShowService.get(page)
                 .flattenAsObservable(tvShows -> tvShows)
                 .flatMap(tvShow -> configService.get()
-                        .map(movieDbSettings -> populatePoster(tvShow,movieDbSettings))
+                        .map(movieDbSettings -> TvShowUtilsKt.createWithSettings(tvShow, movieDbSettings))
                         .toObservable())
                 .toList();
-    }
-
-    private TvShow populatePoster(TvShow tvShow, MovieDbSettings movieDbSettings) {
-        return tvShow;
     }
 }
