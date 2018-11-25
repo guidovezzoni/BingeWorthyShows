@@ -37,6 +37,10 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
         return internalList.size();
     }
 
+    void addItems(List<TvShow> items) {
+        internalList.addAll(items);
+    }
+
     public void updateList(List<TvShow> newList) {
         if (newList == null) {
             return;
