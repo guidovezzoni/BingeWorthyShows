@@ -4,6 +4,6 @@ import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ConfigurationRes
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.MdbSettings
 
 fun createFromConfigurationResponse(configurationResponse: ConfigurationResponse): MdbSettings {
-    return MdbSettings(configurationResponse.images.baseUrl,
+    return MdbSettings(configurationResponse.images.secureBaseUrl,
             configurationResponse.images.posterSizes)
 }
