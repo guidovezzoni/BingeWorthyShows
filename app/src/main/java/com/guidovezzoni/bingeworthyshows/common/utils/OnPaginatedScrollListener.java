@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class OnPaginatedScrollListener extends RecyclerView.OnScrollListener {
-    private static final int VISIBLE_THRESHOLD = 1;
+    private static final int VISIBLE_THRESHOLD = 10;
 
     private final LinearLayoutManager layoutManager;
     private final Action onReachingBottom;
