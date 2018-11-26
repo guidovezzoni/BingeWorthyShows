@@ -34,6 +34,8 @@ public class TvShowViewModel extends BaseViewModel {
                 .toList()
                 .doOnSubscribe(disposable -> loadingSubject.onNext(true))
                 .doOnSuccess(tvShows -> loadingSubject.onNext(false))
+
+                // TODO this will go over the 1000 allowed pages
                 .doOnSuccess(tvShows -> paginationPage++);
     }
 
