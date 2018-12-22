@@ -1,13 +1,12 @@
 package com.guidovezzoni.bingeworthyshows.common.base;
 
-import com.fernandocejas.arrow.optional.Optional;
-
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Single;
+import io.reactivex.Maybe;
 
-public class BaseCacheDataSource<M> implements CacheDataSource<M> {
-    private static final long DEFAULT_CACHE_VALIDITY = TimeUnit.HOURS.toMillis(3);
+@SuppressWarnings("WeakerAccess")
+public class BaseCacheDataSource<M, P> implements CacheDataSource<M, P> {
+    private static final long DEFAULT_CACHE_VALIDITY = TimeUnit.MINUTES.toMillis(5);
 
     private M cachedValue;
 
@@ -21,8 +20,10 @@ public class BaseCacheDataSource<M> implements CacheDataSource<M> {
         invalidateCache();
     }
 
-    public Single<Optional<M>> get() {
-        return Single.just(isCacheValid() ? Optional.of(cachedValue) : Optional.absent());
+    @Override
+    public Maybe<M> get(P params) {
+        //TODO params is currently ignored
+        return isCacheValid() ? Maybe.just(cachedValue) : Maybe.empty();
     }
 
     /**
@@ -31,15 +32,17 @@ public class BaseCacheDataSource<M> implements CacheDataSource<M> {
      * Should probably be replaced by a {@code Pair<M,timestamp>} or something similar
      */
     @Override
-    public Single<Optional<M>> getAndUpdate(DataSource<M> cacheSource) {
+    public Maybe<M> getAndUpdate(P params, DataSource<M, P> cacheSource) {
+        //TODO params is currently ignored
         if (isCacheValid()) {
             cacheSource.set(cachedValue);
-            return Single.just(Optional.of(cachedValue));
+            return Maybe.just(cachedValue);
         } else {
-            return Single.just(Optional.absent());
+            return Maybe.empty();
         }
     }
 
+    @Override
     public void set(M model) {
         updateCache(model);
     }
@@ -49,6 +52,7 @@ public class BaseCacheDataSource<M> implements CacheDataSource<M> {
      *
      * @param newCacheValiditySeconds cache validity in seconds
      */
+    @Override
     public void setCacheValiditySeconds(Integer newCacheValiditySeconds) {
         cacheValidityMs = (newCacheValiditySeconds != null) ?
                 TimeUnit.SECONDS.toMillis(newCacheValiditySeconds) :

@@ -1,15 +1,12 @@
 package com.guidovezzoni.bingeworthyshows.common.base;
 
 
-import com.fernandocejas.arrow.optional.Optional;
+import io.reactivex.Maybe;
 
-import io.reactivex.Single;
+public interface DataSource<M, P> {
+    Maybe<M> get(P params);
 
-// TODO Single<Optional<M>> should be replaced with a {@code Maybe}
-public interface DataSource<M> {
-    Single<Optional<M>> get();
-
-    Single<Optional<M>> getAndUpdate(DataSource<M> cacheSource);
+    Maybe<M> getAndUpdate(P params, DataSource<M, P> cacheSource);
 
     void set(M model);
 }

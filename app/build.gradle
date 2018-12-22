@@ -54,6 +54,8 @@ dependencies {
     // test
     testImplementation "junit:junit:$JUNIT_VERSION"
     testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
+    testImplementation "org.assertj:assertj-core:$ASSERTJ_VERSION"
+    testImplementation "org.hamcrest:hamcrest-library:$HAMCREST_VERSION"
     androidTestImplementation "androidx.test:runner:$ANDROIDX_TESTRUNNER_VERSION"
     androidTestImplementation "androidx.test:rules:$ANDROIDX_TESTRUNNER_VERSION"
     androidTestImplementation "androidx.test.espresso:espresso-core:$ANDROIDX_ESPRESSO_VERSION"

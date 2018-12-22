@@ -28,7 +28,7 @@ public class TvShowViewModel extends BaseViewModel {
     public Single<List<TvShow>> get() {
         return tvShowService.get(paginationPage)
                 .flattenAsObservable(tvShows -> tvShows)
-                .flatMap(tvShow -> configService.get()
+                .flatMap(tvShow -> configService.get(null)
                         .map(movieDbSettings -> TvShowUtilsKt.createWithSettings(tvShow, movieDbSettings))
                         .toObservable())
                 .toList()

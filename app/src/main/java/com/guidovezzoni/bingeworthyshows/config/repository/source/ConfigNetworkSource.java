@@ -1,19 +1,18 @@
 package com.guidovezzoni.bingeworthyshows.config.repository.source;
 
-import com.fernandocejas.arrow.optional.Optional;
 import com.guidovezzoni.bingeworthyshows.common.api.ApiHandler;
 import com.guidovezzoni.bingeworthyshows.common.api.MovieDbServiceApi;
-import com.guidovezzoni.bingeworthyshows.common.base.DataSource;
+import com.guidovezzoni.bingeworthyshows.common.base.BaseNetworkDataSource;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ConfigurationResponse;
-import com.guidovezzoni.bingeworthyshows.common.utils.RxUtils;
 
 import io.reactivex.Single;
+import retrofit2.Response;
 
 /**
  * This class fetches the info from the retrofit service and onSuccess returns the result
  * on stream - or returns an errors if that is the case
  */
-public class ConfigNetworkSource implements DataSource<ConfigurationResponse> {
+public class ConfigNetworkSource extends BaseNetworkDataSource<ConfigurationResponse, Void> {
     private final MovieDbServiceApi movieDbServiceApi;
     private final String apiKey;
 
@@ -22,23 +21,9 @@ public class ConfigNetworkSource implements DataSource<ConfigurationResponse> {
         this.apiKey = apiKey;
     }
 
-
-    private Single<ConfigurationResponse> internalGet() {
-        return movieDbServiceApi.getConfiguration(apiKey)
-                .compose(RxUtils.unWrapResponseWithErrorOnStream());
-    }
-
     @Override
-    public Single<Optional<ConfigurationResponse>> get() {
-        return internalGet()
-                .map(Optional::of);
-    }
-
-    @Override
-    public Single<Optional<ConfigurationResponse>> getAndUpdate(DataSource<ConfigurationResponse> cacheSource) {
-        return internalGet()
-                .doAfterSuccess(cacheSource::set)
-                .map(Optional::of);
+    protected Single<Response<ConfigurationResponse>> getFromEndPoint(Void params) {
+        return movieDbServiceApi.getConfiguration(apiKey);
     }
 
     @Override
