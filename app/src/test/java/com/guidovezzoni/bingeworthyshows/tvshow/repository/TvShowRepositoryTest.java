@@ -9,7 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import io.reactivex.Single;
+import io.reactivex.Maybe;
 import io.reactivex.observers.TestObserver;
 
 import static org.mockito.Mockito.verify;
@@ -29,7 +29,7 @@ public class TvShowRepositoryTest {
         ResultsReponse resultsReponse = new ResultsReponse();
 
         TestObserver<ResultsReponse> testObserver = TestObserver.create();
-        when(tvShowsNetworkSource.get(2)).thenReturn(Single.just(resultsReponse));
+        when(tvShowsNetworkSource.get(2)).thenReturn(Maybe.just(resultsReponse));
 
         sut.get(2)
                 .subscribe(testObserver);

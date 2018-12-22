@@ -1,5 +1,7 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
+
+import com.guidovezzoni.bingeworthyshows.common.base.Service;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
 import com.guidovezzoni.bingeworthyshows.common.utils.TvShowUtilsKt;
@@ -12,14 +14,14 @@ import io.reactivex.Single;
 /**
  * This class forwards data to the app from the repository, providing any logic if required.
  */
-public class TvShowService {
+public class TvShowService implements Service<List<TvShow>, Integer> {
     private final TvShowRepository tvShowRepository;
 
     public TvShowService(TvShowRepository tvShowRepository) {
         this.tvShowRepository = tvShowRepository;
     }
 
-    public Single<List<TvShow>> get(int page) {
+    public Single<List<TvShow>> get(Integer page) {
         return tvShowRepository.get(page)
                 .map(ResultsReponse::getResults)
                 .flattenAsObservable(results -> results)

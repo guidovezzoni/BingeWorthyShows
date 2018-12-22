@@ -1,7 +1,5 @@
 package com.guidovezzoni.bingeworthyshows.common.utils;
 
-import com.fernandocejas.arrow.optional.Optional;
-
 import java.io.IOException;
 
 import io.reactivex.Single;
@@ -28,13 +26,5 @@ public final class RxUtils {
                 return Single.error(e);
             }
         });
-    }
-
-    public static <T> SingleTransformer<Optional<T>, T> getOptionalWithErrorOnStream() {
-        return single -> single.flatMap(
-                tOptional -> tOptional.isPresent() ?
-                        Single.just(tOptional.get()) :
-                        Single.error(new Exception("Data could not be retrieved"))
-        );
     }
 }

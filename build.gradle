@@ -46,8 +46,8 @@ ext {
     OK_HTTP_LOGGING_INTERCEPTOR = '3.5.0'
 
     // rx
-    RX_JAVA_VERSION = "2.1.0"
-    RX_ANDROID_VERSION = "2.0.2"
+    RX_JAVA_VERSION = "2.2.4"
+    RX_ANDROID_VERSION = "2.1.0"
 
     // other 3rd party
     GLIDE_VERSION = '4.8.0'
@@ -56,6 +56,8 @@ ext {
     // test
     JUNIT_VERSION = '4.12'
     MOCKITO_VERSION = '2.13.0'
+    ASSERTJ_VERSION = '3.6.2'
+    HAMCREST_VERSION = '1.3'
     ANDROIDX_TESTRUNNER_VERSION = '1.1.0'
     ANDROIDX_ESPRESSO_VERSION = '3.1.0'
 }
