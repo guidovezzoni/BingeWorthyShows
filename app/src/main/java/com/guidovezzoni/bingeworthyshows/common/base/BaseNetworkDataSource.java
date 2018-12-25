@@ -10,14 +10,15 @@ public abstract class BaseNetworkDataSource<M, P> implements DataSource<M, P> {
     protected abstract Single<Response<M>> getFromEndPoint(P params);
 
     @Override
-    public Maybe<M> get(P params) {
+    public Maybe<Perishable<M>> get(P params) {
         return getFromEndPoint(params)
                 .compose(RxUtils.unWrapResponseWithErrorOnStream())
+                .map(Perishable::new)
                 .toMaybe();
     }
 
     @Override
-    public Maybe<M> getAndUpdate(P params, DataSource<M, P> cacheSource) {
+    public Maybe<Perishable<M>> getAndUpdate(P params, DataSource<M, P> cacheSource) {
         return get(params)
                 .doAfterSuccess(cacheSource::set);
     }

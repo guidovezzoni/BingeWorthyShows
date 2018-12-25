@@ -4,9 +4,9 @@ package com.guidovezzoni.bingeworthyshows.common.base;
 import io.reactivex.Maybe;
 
 public interface DataSource<M, P> {
-    Maybe<M> get(P params);
+    Maybe<Perishable<M>> get(P params);
 
-    Maybe<M> getAndUpdate(P params, DataSource<M, P> cacheSource);
+    Maybe<Perishable<M>> getAndUpdate(P params, DataSource<M, P> cacheSource);
 
-    void set(M model);
+    void set(Perishable<M> model);
 }

@@ -18,6 +18,7 @@ public class BaseRepository<M, P> implements Repository<M, P> {
     @Override
     public Single<M> getLatest(P params) {
         return networkDataSource.get(params)
+                .map(Perishable::getModel)
                 .toSingle();
     }
 }

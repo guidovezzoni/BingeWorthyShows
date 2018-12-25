@@ -17,6 +17,7 @@ public class BaseCachedRepository<M, P> implements Repository<M, P> {
     public Single<M> get(P params) {
         return cacheDataSource.get(params)
                 .switchIfEmpty(networkDataSource.getAndUpdate(params, cacheDataSource))
+                .map(Perishable::getModel)
                 .toSingle();
     }
 
@@ -24,6 +25,7 @@ public class BaseCachedRepository<M, P> implements Repository<M, P> {
     public Single<M> getLatest(P params) {
         return networkDataSource.get(params)
                 .doOnSuccess(cacheDataSource::set)
+                .map(Perishable::getModel)
                 .toSingle();
     }
 
