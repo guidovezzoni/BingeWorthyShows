@@ -27,7 +27,7 @@ public class BaseCachedRepository<M, P> implements Repository<M, P> {
                 .toSingle();
     }
 
-    public void setCacheValiditySeconds(Integer newCacheValiditySeconds) {
+    public void setCacheValiditySeconds(Long newCacheValiditySeconds) {
         cacheDataSource.setCacheValiditySeconds(newCacheValiditySeconds);
     }
 
