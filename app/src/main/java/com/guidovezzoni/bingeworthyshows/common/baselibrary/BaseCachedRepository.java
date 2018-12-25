@@ -1,5 +1,7 @@
-package com.guidovezzoni.bingeworthyshows.common.base;
+package com.guidovezzoni.bingeworthyshows.common.baselibrary;
 
+
+import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
 
 import io.reactivex.Single;
 
@@ -29,7 +31,7 @@ public class BaseCachedRepository<M, P> implements Repository<M, P> {
                 .toSingle();
     }
 
-    public void setCacheValiditySeconds(Integer newCacheValiditySeconds) {
+    public void setCacheValiditySeconds(Long newCacheValiditySeconds) {
         cacheDataSource.setCacheValiditySeconds(newCacheValiditySeconds);
     }
 

@@ -1,5 +1,7 @@
-package com.guidovezzoni.bingeworthyshows.common.base;
+package com.guidovezzoni.bingeworthyshows.common.baselibrary;
 
+
+import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
 
 import io.reactivex.Maybe;
 

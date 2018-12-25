@@ -2,8 +2,8 @@ package com.guidovezzoni.bingeworthyshows.config.repository.source;
 
 import com.guidovezzoni.bingeworthyshows.common.api.ApiHandler;
 import com.guidovezzoni.bingeworthyshows.common.api.MovieDbServiceApi;
-import com.guidovezzoni.bingeworthyshows.common.base.BaseNetworkDataSource;
 import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
+import com.guidovezzoni.bingeworthyshows.common.baselibrary.BaseNetworkDataSource;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ConfigurationResponse;
 
 import io.reactivex.Single;

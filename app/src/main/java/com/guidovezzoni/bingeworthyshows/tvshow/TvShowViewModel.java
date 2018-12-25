@@ -1,46 +1,30 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
-import com.guidovezzoni.bingeworthyshows.common.base.BaseViewModel;
+import com.guidovezzoni.bingeworthyshows.common.base.ImdbViewModel;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
 import com.guidovezzoni.bingeworthyshows.common.utils.TvShowUtilsKt;
 import com.guidovezzoni.bingeworthyshows.config.ConfigService;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.subjects.BehaviorSubject;
 
-public class TvShowViewModel extends BaseViewModel {
-    private final TvShowService tvShowService;
+public class TvShowViewModel extends ImdbViewModel<List<TvShow>, Integer> {
     private int paginationPage = 1;
 
-    private final BehaviorSubject<Boolean> loadingSubject;
-
-    public TvShowViewModel(ConfigService configService, TvShowService tvShowService) {
-        super(configService);
-        this.tvShowService = tvShowService;
-
-        loadingSubject = BehaviorSubject.create();
+    public TvShowViewModel(TvShowService tvShowService, ConfigService configService) {
+        super(tvShowService, configService);
     }
 
     public Single<List<TvShow>> get() {
-        return tvShowService.get(paginationPage)
+        return super.get(paginationPage)
                 .flattenAsObservable(tvShows -> tvShows)
-                .flatMap(tvShow -> configService.get(null)
+                .flatMap(tvShow -> getConfigService().get(null)
                         .map(movieDbSettings -> TvShowUtilsKt.createWithSettings(tvShow, movieDbSettings))
                         .toObservable())
                 .toList()
-                .doOnSubscribe(disposable -> loadingSubject.onNext(true))
-                .doOnSuccess(tvShows -> loadingSubject.onNext(false))
 
                 // TODO this will go over the 1000 allowed pages
                 .doOnSuccess(tvShows -> paginationPage++);
-    }
-
-    @NonNull
-    public Observable<Boolean> getLoadingIndicatorVisibility() {
-        return loadingSubject.hide();
     }
 }

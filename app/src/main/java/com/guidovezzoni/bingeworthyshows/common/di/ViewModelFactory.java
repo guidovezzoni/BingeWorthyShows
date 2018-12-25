@@ -23,7 +23,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(TvShowViewModel.class)) {
-            return (T) new TvShowViewModel(configService, tvShowService);
+            return (T) new TvShowViewModel(tvShowService, configService);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

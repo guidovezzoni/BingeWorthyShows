@@ -1,6 +1,6 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.repository;
 
-import com.guidovezzoni.bingeworthyshows.common.base.BaseRepository;
+import com.guidovezzoni.bingeworthyshows.common.baselibrary.BaseRepository;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.source.TvShowsNetworkSource;
 

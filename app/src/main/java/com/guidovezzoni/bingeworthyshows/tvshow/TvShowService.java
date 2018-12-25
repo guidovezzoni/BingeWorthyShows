@@ -1,7 +1,7 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
 
-import com.guidovezzoni.bingeworthyshows.common.base.Service;
+import com.guidovezzoni.bingeworthyshows.common.baselibrary.Service;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
 import com.guidovezzoni.bingeworthyshows.common.utils.TvShowUtilsKt;
