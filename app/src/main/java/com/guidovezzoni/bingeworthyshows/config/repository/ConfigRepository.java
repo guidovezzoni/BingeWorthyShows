@@ -1,6 +1,6 @@
 package com.guidovezzoni.bingeworthyshows.config.repository;
 
-import com.guidovezzoni.bingeworthyshows.common.base.BaseCachedRepository;
+import com.guidovezzoni.bingeworthyshows.common.baselibrary.BaseCachedRepository;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ConfigurationResponse;
 import com.guidovezzoni.bingeworthyshows.config.repository.source.ConfigCacheSource;
 import com.guidovezzoni.bingeworthyshows.config.repository.source.ConfigNetworkSource;

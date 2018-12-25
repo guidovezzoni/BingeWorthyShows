@@ -1,4 +1,4 @@
-package com.guidovezzoni.bingeworthyshows.common.base;
+package com.guidovezzoni.bingeworthyshows.common.baselibrary;
 
 /**
  * The main reason for this class is to extract some internal logic and unit test it separately.

@@ -1,4 +1,4 @@
-package com.guidovezzoni.bingeworthyshows.common.base;
+package com.guidovezzoni.bingeworthyshows.common.baselibrary;
 
 import org.junit.Before;
 import org.junit.Test;
