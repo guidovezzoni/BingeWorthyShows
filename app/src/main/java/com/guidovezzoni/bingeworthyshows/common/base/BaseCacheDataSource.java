@@ -51,12 +51,19 @@ public class BaseCacheDataSource<M, P> implements CacheDataSource<M, P> {
      * please note the parameter is in seconds while the internal class variables are in milliseconds
      *
      * @param newCacheValiditySeconds cache validity in seconds
+     * @deprecated use {@link #setCacheValidity(Long)} instead
      */
+    @Deprecated
     @Override
-    public void setCacheValiditySeconds(Integer newCacheValiditySeconds) {
+    public void setCacheValiditySeconds(Long newCacheValiditySeconds) {
         cacheValidityMs = (newCacheValiditySeconds != null) ?
                 TimeUnit.SECONDS.toMillis(newCacheValiditySeconds) :
                 DEFAULT_CACHE_VALIDITY;
+    }
+
+    @Override
+    public void setCacheValidity(Long newCacheValidity) {
+        cacheValidityMs = (newCacheValidity != null) ? newCacheValidity : DEFAULT_CACHE_VALIDITY;
     }
 
     protected void updateCache(M newValue) {
