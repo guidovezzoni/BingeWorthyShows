@@ -33,10 +33,12 @@ public class TvShowServiceTest {
 
         Result result = new Result();
         result.setName("Agents of Shield");
+        result.setOverview("Marvel");
         resultsReponse.getResults().add(result);
 
         result = new Result();
         result.setName("Gotham");
+        result.setOverview("DC");
         resultsReponse.getResults().add(result);
 
         TestObserver<List<TvShow>> testObserver = TestObserver.create();

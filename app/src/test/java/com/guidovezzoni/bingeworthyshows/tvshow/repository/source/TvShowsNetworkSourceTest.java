@@ -2,6 +2,7 @@ package com.guidovezzoni.bingeworthyshows.tvshow.repository.source;
 
 import com.guidovezzoni.bingeworthyshows.common.api.ApiHandler;
 import com.guidovezzoni.bingeworthyshows.common.api.MovieDbServiceApi;
+import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class TvShowsNetworkSourceTest {
     public void whenGetThenApiHandlerInvoked() {
         ResultsReponse resultsReponse = new ResultsReponse();
 
-        TestObserver<ResultsReponse> testObserver = TestObserver.create();
+        TestObserver<Perishable<ResultsReponse>> testObserver = TestObserver.create();
         final Response<ResultsReponse> success = Response.success(resultsReponse);
         when(movieDbServiceApi.getTvPopular("mock key", 3))
                 .thenReturn(Single.just(success));

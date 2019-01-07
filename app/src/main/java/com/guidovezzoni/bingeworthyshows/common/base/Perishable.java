@@ -15,6 +15,14 @@ public class Perishable<M> {
         this.timestamp = System.currentTimeMillis();
     }
 
+    public static <T> Perishable<T> of(T t) {
+        return new Perishable<>(t);
+    }
+
+    public static <T> Perishable<T> of(T t, Long timestamp) {
+        return new Perishable<>(t, timestamp);
+    }
+
     public M getModel() {
         return model;
     }

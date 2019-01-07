@@ -1,5 +1,7 @@
 package com.guidovezzoni.bingeworthyshows.common.baselibrary;
 
+import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +30,7 @@ public class BaseRepositoryTest {
     @Test
     public void whenGetThenReturnFromNetwork() {
         TestObserver<String> testObserver = TestObserver.create();
-        when(networkDataSource.get(null)).thenReturn(Maybe.just("Network"));
+        when(networkDataSource.get(null)).thenReturn(Maybe.just(Perishable.of("Network")));
 
         sut.get(null)
                 .subscribe(testObserver);
@@ -40,7 +42,7 @@ public class BaseRepositoryTest {
     @Test
     public void whenGetLatestThenReturnFromNetwork() {
         TestObserver<String> testObserver = TestObserver.create();
-        when(networkDataSource.get(null)).thenReturn(Maybe.just("Network"));
+        when(networkDataSource.get(null)).thenReturn(Maybe.just(Perishable.of("Network")));
 
         sut.getLatest(null)
                 .subscribe(testObserver);

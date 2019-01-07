@@ -1,5 +1,6 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.repository;
 
+import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.source.TvShowsNetworkSource;
 
@@ -29,7 +30,7 @@ public class TvShowRepositoryTest {
         ResultsReponse resultsReponse = new ResultsReponse();
 
         TestObserver<ResultsReponse> testObserver = TestObserver.create();
-        when(tvShowsNetworkSource.get(2)).thenReturn(Maybe.just(resultsReponse));
+        when(tvShowsNetworkSource.get(2)).thenReturn(Maybe.just(Perishable.of(resultsReponse)));
 
         sut.get(2)
                 .subscribe(testObserver);

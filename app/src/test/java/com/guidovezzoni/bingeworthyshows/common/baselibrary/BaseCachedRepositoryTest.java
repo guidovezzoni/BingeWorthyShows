@@ -1,5 +1,7 @@
 package com.guidovezzoni.bingeworthyshows.common.baselibrary;
 
+import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,8 +36,8 @@ public class BaseCachedRepositoryTest {
     @Test
     public void whenGetWithCacheAvailableThenReturnCache() {
         TestObserver<String> testObserver = TestObserver.create();
-        when(cacheDataSource.get(null)).thenReturn(Maybe.just("cache"));
-        when(networkDataSource.getAndUpdate(null, cacheDataSource)).thenReturn(Maybe.just("Network"));
+        when(cacheDataSource.get(null)).thenReturn(Maybe.just(Perishable.of("cache")));
+        when(networkDataSource.getAndUpdate(null, cacheDataSource)).thenReturn(Maybe.just(Perishable.of("Network")));
 
         sut.get(null).subscribe(testObserver);
 
@@ -48,7 +50,7 @@ public class BaseCachedRepositoryTest {
     public void whenGetWithCacheNotAvailableThenReturnFromNetwork() {
         TestObserver<String> testObserver = TestObserver.create();
         when(cacheDataSource.get(null)).thenReturn(Maybe.empty());
-        when(networkDataSource.getAndUpdate(null, cacheDataSource)).thenReturn(Maybe.just("Network"));
+        when(networkDataSource.getAndUpdate(null, cacheDataSource)).thenReturn(Maybe.just(Perishable.of("Network")));
 
         sut.get(null)
                 .subscribe(testObserver);
@@ -76,7 +78,7 @@ public class BaseCachedRepositoryTest {
     @Test
     public void whenGetLatestThenReturnNetwork() {
         TestObserver<String> testObserver = TestObserver.create();
-        when(networkDataSource.get(null)).thenReturn(Maybe.just("Network"));
+        when(networkDataSource.get(null)).thenReturn(Maybe.just(Perishable.of("Network")));
 
         sut.getLatest(null)
                 .subscribe(testObserver);
