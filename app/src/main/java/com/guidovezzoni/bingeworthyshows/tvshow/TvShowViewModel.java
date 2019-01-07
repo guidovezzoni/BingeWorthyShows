@@ -16,7 +16,8 @@ public class TvShowViewModel extends ImdbViewModel<List<TvShow>, Integer> {
         super(tvShowService, configService);
     }
 
-    public Single<List<TvShow>> get() {
+    @Override
+    public Single<List<TvShow>> get(Integer integer) {
         return super.get(paginationPage)
                 .flattenAsObservable(tvShows -> tvShows)
                 .flatMap(tvShow -> getConfigService().get(null)
