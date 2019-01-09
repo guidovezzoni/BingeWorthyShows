@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -35,8 +36,11 @@ public class TvShowActivity extends AppCompatActivity {
 
     // TODO Not sure this is the best implementation, need to review this
     private PublishProcessor<Object> paginator = PublishProcessor.create();
+    private Disposable paginatorDisposable;
 
     private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private TvShowAdapter tvShowAdapter;
 
     @Override
@@ -49,6 +53,10 @@ public class TvShowActivity extends AppCompatActivity {
         ViewModelFactory viewModelFactory = ((MainApplication) getApplication()).getDiManager().getViewModelFactory();
         tvShowViewModel = ViewModelProviders.of(this, viewModelFactory).get(TvShowViewModel.class);
 
+        swipeRefreshLayout = findViewById(R.id.swipToRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this::swipeToRefresh);
+
+
         progressBar = findViewById(R.id.progress_bar);
         RecyclerView mainRecyclerView = findViewById(R.id.list);
 
@@ -57,7 +65,12 @@ public class TvShowActivity extends AppCompatActivity {
         mainRecyclerView.addOnScrollListener(new OnPaginatedScrollListener(mainRecyclerView,
                 () -> paginator.onNext(new Object())));
 
+        //TODO this create two spinners... it doesn't look great
         subscribeForLoadingState();
+        subscribeForData();
+    }
+
+    private void swipeToRefresh() {
         subscribeForData();
     }
 
@@ -73,25 +86,26 @@ public class TvShowActivity extends AppCompatActivity {
     }
 
     private void subscribeForData() {
-        Disposable disposable = paginator
-                .onBackpressureDrop()
-                .concatMap((Function<Object, Publisher<List<TvShow>>>) this::apply)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onNext, this::onError);
+        if (paginatorDisposable != null) paginatorDisposable.dispose();
 
-        disposables.add(disposable);
+        tvShowViewModel.resetPagination();
+        tvShowAdapter.clearList();
+
+        paginatorDisposable = paginator
+                .onBackpressureDrop()
+                .concatMap((Function<Object, Publisher<List<TvShow>>>) this::retrieveListPage)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(tvShowAdapter::addItemsToList, this::onError);
+
+        disposables.add(paginatorDisposable);
         paginator.onNext(new Object());
     }
 
-    private Publisher<List<TvShow>> apply(Object object) {
+    private Publisher<List<TvShow>> retrieveListPage(Object object) {
         return tvShowViewModel.get()
                 .subscribeOn(Schedulers.io())
+                .doFinally(() -> swipeRefreshLayout.setRefreshing(false))
                 .toFlowable();
-    }
-
-    private void onNext(List<TvShow> items) {
-        tvShowAdapter.addItems(items);
-        tvShowAdapter.notifyDataSetChanged();
     }
 
     private void onError(Throwable throwable) {
