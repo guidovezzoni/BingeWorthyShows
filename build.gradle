@@ -20,6 +20,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -52,6 +53,7 @@ ext {
     // other 3rd party
     GLIDE_VERSION = '4.8.0'
     ARROW_VERSION = '1.0.0'
+    GUTILS_VERSION = '0.1.0-alpha'
 
     // test
     JUNIT_VERSION = '4.12'

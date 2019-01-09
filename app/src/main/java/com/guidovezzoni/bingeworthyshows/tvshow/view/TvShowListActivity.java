@@ -1,5 +1,6 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,8 +28,8 @@ import io.reactivex.functions.Function;
 import io.reactivex.processors.PublishProcessor;
 import io.reactivex.schedulers.Schedulers;
 
-public class TvShowActivity extends AppCompatActivity {
-    private static final String TAG = TvShowActivity.class.getSimpleName();
+public class TvShowListActivity extends AppCompatActivity {
+    private static final String TAG = TvShowListActivity.class.getSimpleName();
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     private TvShowViewModel tvShowViewModel;
@@ -39,12 +40,16 @@ public class TvShowActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TvShowAdapter tvShowAdapter;
 
+    private boolean twoPanelLoaded;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_show_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        twoPanelLoaded = (findViewById(R.id.item_detail_container) != null);
 
         ViewModelFactory viewModelFactory = ((MainApplication) getApplication()).getDiManager().getViewModelFactory();
         tvShowViewModel = ViewModelProviders.of(this, viewModelFactory).get(TvShowViewModel.class);
@@ -52,13 +57,33 @@ public class TvShowActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         RecyclerView mainRecyclerView = findViewById(R.id.list);
 
-        tvShowAdapter = new TvShowAdapter();
+        tvShowAdapter = new TvShowAdapter(this::itemClick);
         mainRecyclerView.setAdapter(tvShowAdapter);
         mainRecyclerView.addOnScrollListener(new OnPaginatedScrollListener(mainRecyclerView,
                 () -> paginator.onNext(new Object())));
 
         subscribeForLoadingState();
         subscribeForData();
+    }
+
+    private void itemClick(TvShow tvShow) {
+//        Toast.makeText(this, "Two panel=" + twoPanelLoaded, Toast.LENGTH_SHORT).show();
+
+        if (twoPanelLoaded) {
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(TvShowFragment.ARG_SHOW, tvShow);
+            TvShowFragment fragment = new TvShowFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.item_detail_container, fragment)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, TvShowDetailActivity.class);
+            intent.putExtra(TvShowFragment.ARG_SHOW, tvShow);
+
+            this.startActivity(intent);
+        }
+
     }
 
     private void subscribeForLoadingState() {
@@ -91,7 +116,6 @@ public class TvShowActivity extends AppCompatActivity {
 
     private void onNext(List<TvShow> items) {
         tvShowAdapter.addItems(items);
-        tvShowAdapter.notifyDataSetChanged();
     }
 
     private void onError(Throwable throwable) {

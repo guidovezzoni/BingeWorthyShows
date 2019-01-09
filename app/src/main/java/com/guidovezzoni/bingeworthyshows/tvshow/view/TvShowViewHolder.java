@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.guidovezzoni.bingeworthyshows.R;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
+import com.guidovezzoni.gutils.functional.Action1;
 
 import java.util.Locale;
 
@@ -34,7 +35,7 @@ public class TvShowViewHolder extends RecyclerView.ViewHolder {
         showAverageVote = itemView.findViewById(R.id.show_average_vote);
     }
 
-    public void bind(@NonNull TvShow tvShow) {
+    public void bind(@NonNull TvShow tvShow, Action1<TvShow> itemClick) {
         showImage.setImageDrawable(null);
         Glide.with(itemView)
                 .load(tvShow.getPoster())
@@ -44,6 +45,8 @@ public class TvShowViewHolder extends RecyclerView.ViewHolder {
 
         showTitle.setText(tvShow.getTitle());
         showAverageVote.setText(getRating(tvShow));
+
+        itemView.setOnClickListener(view -> itemClick.run(tvShow));
     }
 
     private String getRating(TvShow tvShow) {

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/item_tvshow_background"
     android:padding="@dimen/item_tvshow_padding"
-    tools:context=".tvshow.view.TvShowActivity">
+    tools:context=".tvshow.view.TvShowListActivity">
 
     <ImageView
         android:id="@+id/show_image"
