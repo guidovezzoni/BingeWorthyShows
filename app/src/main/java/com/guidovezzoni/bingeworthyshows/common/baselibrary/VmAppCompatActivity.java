@@ -14,6 +14,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+@SuppressWarnings("unused")
 @SuppressLint("Registered")
 public class VmAppCompatActivity<M, P> extends AppCompatActivity {
     private static final String TAG = VmAppCompatActivity.class.getSimpleName();
@@ -33,24 +34,12 @@ public class VmAppCompatActivity<M, P> extends AppCompatActivity {
         subscribeForLoadingState();
     }
 
-    protected CompositeDisposable getDisposables() {
-        return disposables;
-    }
-
-    public ViewModel<M, P> getViewModel() {
-        return viewModel;
-    }
-
-    public void setViewModel(ViewModel<M, P> viewModel) {
-        this.viewModel = viewModel;
-    }
-
     private void subscribeForLoadingState() {
         if (progressBar != null) {
             disposables.add(viewModel.getLoadingIndicatorVisibility()
                     .subscribeOn(Schedulers.computation())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::updateProgressBar, this::onError));
+                    .subscribe(this::updateProgressBar, this::onSubscriptionError));
         }
     }
 
@@ -60,8 +49,24 @@ public class VmAppCompatActivity<M, P> extends AppCompatActivity {
         }
     }
 
-    protected void onError(Throwable throwable) {
+    protected void onSubscriptionError(Throwable throwable) {
         Log.e(TAG, "Something went wrong.", throwable);
+    }
+
+    protected CompositeDisposable getDisposables() {
+        return disposables;
+    }
+
+    protected ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    protected ViewModel<M, P> getViewModel() {
+        return viewModel;
+    }
+
+    protected void setViewModel(ViewModel<M, P> viewModel) {
+        this.viewModel = viewModel;
     }
 
     @Override

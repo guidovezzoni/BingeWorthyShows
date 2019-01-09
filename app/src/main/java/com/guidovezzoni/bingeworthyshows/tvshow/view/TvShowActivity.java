@@ -54,7 +54,7 @@ public class TvShowActivity extends VmAppCompatActivity<List<TvShow>, Integer> {
                 .onBackpressureDrop()
                 .concatMap((Function<Object, Publisher<List<TvShow>>>) this::apply)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onNext, this::onError);
+                .subscribe(this::onNext, this::onSubscriptionError);
 
         getDisposables().add(disposable);
         paginator.onNext(new Object());
