@@ -24,6 +24,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".tvshow.view.TvShowDetailActivity"
+            android:label="Item Detail"
+            android:parentActivityName=".tvshow.view.TvShowListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".tvshow.view.TvShowListActivity" />
+        </activity>
+
     </application>
 
 </manifest>

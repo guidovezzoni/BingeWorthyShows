@@ -49,7 +49,7 @@ public class TvShowListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        twoPanelLoaded = (findViewById(R.id.item_detail_container) != null);
+        twoPanelLoaded = (findViewById(R.id.item_detail_container_two_panel) != null);
 
         ViewModelFactory viewModelFactory = ((MainApplication) getApplication()).getDiManager().getViewModelFactory();
         tvShowViewModel = ViewModelProviders.of(this, viewModelFactory).get(TvShowViewModel.class);
@@ -67,23 +67,15 @@ public class TvShowListActivity extends AppCompatActivity {
     }
 
     private void itemClick(TvShow tvShow) {
-//        Toast.makeText(this, "Two panel=" + twoPanelLoaded, Toast.LENGTH_SHORT).show();
-
         if (twoPanelLoaded) {
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(TvShowFragment.ARG_SHOW, tvShow);
-            TvShowFragment fragment = new TvShowFragment();
-            fragment.setArguments(arguments);
+            TvShowFragment fragment = TvShowFragment.newInstance(tvShow);
+
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
+                    .replace(R.id.item_detail_container_two_panel, fragment)
                     .commit();
         } else {
-            Intent intent = new Intent(this, TvShowDetailActivity.class);
-            intent.putExtra(TvShowFragment.ARG_SHOW, tvShow);
-
-            this.startActivity(intent);
+            this.startActivity(TvShowDetailActivity.newIntent(this, tvShow));
         }
-
     }
 
     private void subscribeForLoadingState() {
@@ -102,7 +94,7 @@ public class TvShowListActivity extends AppCompatActivity {
                 .onBackpressureDrop()
                 .concatMap((Function<Object, Publisher<List<TvShow>>>) this::apply)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onNext, this::onError);
+                .subscribe(tvShowAdapter::addItems, this::onError);
 
         disposables.add(disposable);
         paginator.onNext(new Object());
@@ -112,10 +104,6 @@ public class TvShowListActivity extends AppCompatActivity {
         return tvShowViewModel.get()
                 .subscribeOn(Schedulers.io())
                 .toFlowable();
-    }
-
-    private void onNext(List<TvShow> items) {
-        tvShowAdapter.addItems(items);
     }
 
     private void onError(Throwable throwable) {
