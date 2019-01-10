@@ -1,4 +1,4 @@
-package com.guidovezzoni.bingeworthyshows.common.baselibrary;
+package com.guidovezzoni.bingeworthyshows.common.extracttolibrary;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -6,7 +6,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.subjects.BehaviorSubject;
 
-public class BaseViewModel<M, P> extends ViewModel implements com.guidovezzoni.bingeworthyshows.common.baselibrary.ViewModel<M, P> {
+public class BaseViewModel<M, P> extends ViewModel implements com.guidovezzoni.bingeworthyshows.common.extracttolibrary.ViewModel<M, P> {
     protected final Service<M, P> service;
 
     private final BehaviorSubject<Boolean> loadingSubject;

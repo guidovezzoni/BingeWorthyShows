@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.guidovezzoni.bingeworthyshows.MainApplication;
 import com.guidovezzoni.bingeworthyshows.R;
-import com.guidovezzoni.bingeworthyshows.common.baselibrary.VmAppCompatActivity;
+import com.guidovezzoni.bingeworthyshows.common.extracttolibrary.VmAppCompatActivity;
 import com.guidovezzoni.bingeworthyshows.common.di.ViewModelFactory;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
 import com.guidovezzoni.bingeworthyshows.common.utils.OnPaginatedScrollListener;

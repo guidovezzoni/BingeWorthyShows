@@ -3,7 +3,7 @@ package com.guidovezzoni.bingeworthyshows.tvshow.repository.source;
 import com.guidovezzoni.bingeworthyshows.common.api.ApiHandler;
 import com.guidovezzoni.bingeworthyshows.common.api.MovieDbServiceApi;
 import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
-import com.guidovezzoni.bingeworthyshows.common.baselibrary.BaseNetworkDataSource;
+import com.guidovezzoni.bingeworthyshows.common.extracttolibrary.BaseNetworkDataSource;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 
 import io.reactivex.Single;

@@ -1,4 +1,4 @@
-package com.guidovezzoni.bingeworthyshows.common.baselibrary;
+package com.guidovezzoni.bingeworthyshows.common.extracttolibrary;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;

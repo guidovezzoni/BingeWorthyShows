@@ -2,7 +2,7 @@ package com.guidovezzoni.bingeworthyshows.common.di;
 
 import com.guidovezzoni.bingeworthyshows.common.api.ApiHandler;
 import com.guidovezzoni.bingeworthyshows.common.api.MovieDbServiceApi;
-import com.guidovezzoni.bingeworthyshows.common.baselibrary.CacheHelper;
+import com.guidovezzoni.bingeworthyshows.common.extracttolibrary.CacheHelper;
 import com.guidovezzoni.bingeworthyshows.config.ConfigService;
 import com.guidovezzoni.bingeworthyshows.config.repository.ConfigRepository;
 import com.guidovezzoni.bingeworthyshows.config.repository.source.ConfigCacheSource;
