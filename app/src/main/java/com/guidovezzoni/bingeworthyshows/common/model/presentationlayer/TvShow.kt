@@ -4,4 +4,9 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class TvShow(val title: String, val overview: String, val poster: String, val averageVote: Float?) : Parcelable
+data class TvShow(val name: String,
+                  val originalName: String,
+                  val overview: String,
+                  val posterPath: String,
+                  val backDropPath: String,
+                  val averageVote: Float?) : Parcelable

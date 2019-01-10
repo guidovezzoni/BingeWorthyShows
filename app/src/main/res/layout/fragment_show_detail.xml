@@ -1,10 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_detail"
-    style="?android:attr/textAppearanceLarge"
+    android:background="@color/item_tvshow_background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context=".tvshow.view.TvShowFragment" />
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/show_detail_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/item_tv_show_poster_content_description"
+        app:layout_constraintDimensionRatio="h,2:3"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/backgrounds/scenic[15]" />
+
+    <TextView
+        android:id="@+id/show_detail_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textColor="@color/item_tvshow_text_color"
+        android:textIsSelectable="true"
+        app:layout_constraintTop_toBottomOf="@+id/show_detail_image"
+        tools:text="Text" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <TextView
+        android:id="@+id/show_detail_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ellipsize="end"
+        android:textColor="@color/item_tvshow_text_color"
+        android:maxLines="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/vertical_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView TextView TextView TextView TextView TextView TextView TextView TextView " />
+
+    <TextView
+        android:id="@+id/show_detail_original_name_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/item_tvshow_text_color"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Original name"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/show_detail_name" />
+
+    <TextView
+        android:id="@+id/show_detail_original_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:ellipsize="end"
+        android:textColor="@color/item_tvshow_text_color"
+        android:maxLines="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/show_detail_original_name_label"
+        tools:text="TextView TextView TextView TextView TextView TextView TextView TextView TextView " />
+
+    <TextView
+        android:id="@+id/show_average_vote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:drawableStart="@android:drawable/btn_star_big_on"
+        android:textColor="@color/item_tvshow_text_color"
+        android:drawableLeft="@android:drawable/btn_star_big_on"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/vertical_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/show_detail_original_name"
+        tools:text="99" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+

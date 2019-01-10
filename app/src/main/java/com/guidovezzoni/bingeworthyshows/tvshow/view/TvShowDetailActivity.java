@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.guidovezzoni.bingeworthyshows.R;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
@@ -40,14 +44,21 @@ public class TvShowDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        final TvShow tvShow = getIntent().getParcelableExtra(ARG_SHOW);
         if (savedInstanceState == null) {
-            final TvShow tvShow = getIntent().getParcelableExtra(ARG_SHOW);
             TvShowFragment fragment = TvShowFragment.newInstance(tvShow);
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.item_detail_container_single_panel, fragment)
                     .commit();
         }
+
+        final ImageView imageView = findViewById(R.id.hero_image);
+        Glide.with(this)
+                .load(tvShow.getBackDropPath())
+                .apply(new RequestOptions().transforms(new CenterCrop()))
+                .apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
+                .into(imageView);
     }
 
     @Override

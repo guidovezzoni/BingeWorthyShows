@@ -10,9 +10,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.guidovezzoni.bingeworthyshows.R;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
+import com.guidovezzoni.bingeworthyshows.common.utils.TvShowUtilsKt;
 import com.guidovezzoni.gutils.functional.Action1;
-
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 @SuppressWarnings("WeakerAccess")
 public class TvShowViewHolder extends RecyclerView.ViewHolder {
     private static final int CORNER_ROUNDING = 40;
-    private static final String AVERAGE_VOTE_FORMAT = "%.01f";
-    private static final String AVERAGE_VOTE_MISSING = "-";
 
     private ImageView showImage;
     private TextView showTitle;
@@ -38,23 +35,14 @@ public class TvShowViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull TvShow tvShow, Action1<TvShow> itemClick) {
         showImage.setImageDrawable(null);
         Glide.with(itemView)
-                .load(tvShow.getPoster())
+                .load(tvShow.getPosterPath())
                 .apply(new RequestOptions().transforms(new CenterInside(), new RoundedCorners(CORNER_ROUNDING)))
                 .apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
                 .into(showImage);
 
-        showTitle.setText(tvShow.getTitle());
-        showAverageVote.setText(getRating(tvShow));
+        showTitle.setText(tvShow.getName());
+        showAverageVote.setText(TvShowUtilsKt.getRating(tvShow));
 
         itemView.setOnClickListener(view -> itemClick.run(tvShow));
-    }
-
-    private String getRating(TvShow tvShow) {
-        Float averageVote = tvShow.getAverageVote();
-        if (averageVote != null) {
-            return String.format(Locale.getDefault(), AVERAGE_VOTE_FORMAT, averageVote);
-        } else {
-            return AVERAGE_VOTE_MISSING;
-        }
     }
 }

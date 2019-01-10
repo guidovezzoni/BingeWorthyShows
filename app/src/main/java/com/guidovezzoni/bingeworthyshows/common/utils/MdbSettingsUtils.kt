@@ -5,5 +5,6 @@ import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.MdbSetti
 
 fun createFromConfigurationResponse(configurationResponse: ConfigurationResponse): MdbSettings {
     return MdbSettings(configurationResponse.images.secureBaseUrl,
+            configurationResponse.images.backdropSizes,
             configurationResponse.images.posterSizes)
 }

@@ -5,11 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.guidovezzoni.bingeworthyshows.R;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
+import com.guidovezzoni.bingeworthyshows.common.utils.TvShowUtilsKt;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,13 +52,28 @@ public class TvShowFragment extends Fragment {
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
 
             if (appBarLayout != null) {
-                appBarLayout.setTitle(tvShow.getTitle());
+                appBarLayout.setTitle(tvShow.getName());
             }
         }
 
-        final TextView itemDetail = rootView.findViewById(R.id.item_detail);
+        final ImageView imageView = rootView.findViewById(R.id.show_detail_image);
+        Glide.with(getActivity())
+                .load(tvShow.getPosterPath())
+                .apply(new RequestOptions().transforms(new CenterCrop()))
+                .apply(RequestOptions.placeholderOf(R.mipmap.ic_launcher))
+                .into(imageView);
 
-        itemDetail.setText(tvShow.getOverview());
+        ((TextView) rootView.findViewById(R.id.show_detail_name)).
+                setText(tvShow.getName());
+
+        ((TextView) rootView.findViewById(R.id.show_detail_original_name)).
+                setText(tvShow.getOriginalName());
+
+        ((TextView) rootView.findViewById(R.id.show_average_vote)).
+                setText(TvShowUtilsKt.getRating(tvShow));
+
+        ((TextView) rootView.findViewById(R.id.show_detail_description)).
+                setText(tvShow.getOverview());
 
         return rootView;
     }
