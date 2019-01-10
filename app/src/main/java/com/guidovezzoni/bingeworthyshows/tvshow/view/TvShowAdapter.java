@@ -13,6 +13,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+//TODO a parent class could be extracted from here
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
     private final List<TvShow> internalList;
 
@@ -37,7 +38,7 @@ public class TvShowAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
         return internalList.size();
     }
 
-    public void clearList(){
+    public void clearList() {
         internalList.clear();
         notifyDataSetChanged();
     }

@@ -1,8 +1,10 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.guidovezzoni.bingeworthyshows.MainApplication;
@@ -54,7 +56,7 @@ public class TvShowActivity extends AppCompatActivity {
         tvShowViewModel = ViewModelProviders.of(this, viewModelFactory).get(TvShowViewModel.class);
 
         swipeRefreshLayout = findViewById(R.id.swipToRefresh);
-        swipeRefreshLayout.setOnRefreshListener(this::swipeToRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this::subscribeForData);
 
 
         progressBar = findViewById(R.id.progress_bar);
@@ -65,12 +67,7 @@ public class TvShowActivity extends AppCompatActivity {
         mainRecyclerView.addOnScrollListener(new OnPaginatedScrollListener(mainRecyclerView,
                 () -> paginator.onNext(new Object())));
 
-        //TODO this create two spinners... it doesn't look great
         subscribeForLoadingState();
-        subscribeForData();
-    }
-
-    private void swipeToRefresh() {
         subscribeForData();
     }
 
@@ -78,14 +75,12 @@ public class TvShowActivity extends AppCompatActivity {
         disposables.add(tvShowViewModel.getLoadingIndicatorVisibility()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateSpinner, this::onError));
-    }
-
-    private void updateSpinner(Boolean loading) {
-        progressBar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+                .subscribe(swipeRefreshLayout::setRefreshing, this::onError));
     }
 
     private void subscribeForData() {
+        swipeRefreshLayout.setRefreshing(true);
+
         if (paginatorDisposable != null) paginatorDisposable.dispose();
 
         tvShowViewModel.resetPagination();
@@ -108,7 +103,26 @@ public class TvShowActivity extends AppCompatActivity {
                 .toFlowable();
     }
 
+    @SuppressLint("LogNotTimber")
     private void onError(Throwable throwable) {
         Log.e(TAG, "Something went wrong.", throwable);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_tvshow, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_refresh) {
+            subscribeForData();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
