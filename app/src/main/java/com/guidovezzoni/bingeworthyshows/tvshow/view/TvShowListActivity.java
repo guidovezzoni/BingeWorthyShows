@@ -1,9 +1,11 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.view;
 
 import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.guidovezzoni.bingeworthyshows.MainApplication;
@@ -21,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -36,8 +39,11 @@ public class TvShowListActivity extends AppCompatActivity {
 
     // TODO Not sure this is the best implementation, need to review this
     private PublishProcessor<Object> paginator = PublishProcessor.create();
+    private Disposable paginatorDisposable;
 
     private ProgressBar progressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private TvShowAdapter tvShowAdapter;
 
     private boolean twoPanelLoaded;
@@ -53,6 +59,10 @@ public class TvShowListActivity extends AppCompatActivity {
 
         ViewModelFactory viewModelFactory = ((MainApplication) getApplication()).getDiManager().getViewModelFactory();
         tvShowViewModel = ViewModelProviders.of(this, viewModelFactory).get(TvShowViewModel.class);
+
+        swipeRefreshLayout = findViewById(R.id.swipToRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this::subscribeForData);
+
 
         progressBar = findViewById(R.id.progress_bar);
         RecyclerView mainRecyclerView = findViewById(R.id.list);
@@ -82,31 +92,54 @@ public class TvShowListActivity extends AppCompatActivity {
         disposables.add(tvShowViewModel.getLoadingIndicatorVisibility()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::updateSpinner, this::onError));
-    }
-
-    private void updateSpinner(Boolean loading) {
-        progressBar.setVisibility(loading ? View.VISIBLE : View.INVISIBLE);
+                .subscribe(swipeRefreshLayout::setRefreshing, this::onError));
     }
 
     private void subscribeForData() {
-        Disposable disposable = paginator
-                .onBackpressureDrop()
-                .concatMap((Function<Object, Publisher<List<TvShow>>>) this::apply)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(tvShowAdapter::addItems, this::onError);
+        swipeRefreshLayout.setRefreshing(true);
 
-        disposables.add(disposable);
+        if (paginatorDisposable != null) paginatorDisposable.dispose();
+
+        tvShowViewModel.resetPagination();
+        tvShowAdapter.clearList();
+
+        paginatorDisposable = paginator
+                .onBackpressureDrop()
+                .concatMap((Function<Object, Publisher<List<TvShow>>>) this::retrieveListPage)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(tvShowAdapter::addItemsToList, this::onError);
+
+        disposables.add(paginatorDisposable);
         paginator.onNext(new Object());
     }
 
-    private Publisher<List<TvShow>> apply(Object object) {
+    private Publisher<List<TvShow>> retrieveListPage(Object object) {
         return tvShowViewModel.get()
                 .subscribeOn(Schedulers.io())
+                .doFinally(() -> swipeRefreshLayout.setRefreshing(false))
                 .toFlowable();
     }
 
+    @SuppressLint("LogNotTimber")
     private void onError(Throwable throwable) {
         Log.e(TAG, "Something went wrong.", throwable);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_tvshow, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.menu_refresh) {
+            subscribeForData();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
