@@ -31,22 +31,19 @@ public class TvShowActivity extends VmAppCompatActivity<List<TvShow>, Integer> {
     private PublishProcessor<Object> paginator = PublishProcessor.create();
     private Disposable paginatorDisposable;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-
     private TvShowAdapter tvShowAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         ViewModelFactory viewModelFactory = ((MainApplication) getApplication()).getDiManager().getViewModelFactory();
         setViewModel(ViewModelProviders.of(this, viewModelFactory).get(TvShowViewModel.class));
 
-        swipeRefreshLayout = findViewById(R.id.swipToRefresh);
-        swipeRefreshLayout.setOnRefreshListener(this::subscribeForData);
+        super.onCreate(savedInstanceState);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         RecyclerView mainRecyclerView = findViewById(R.id.list);
 
@@ -56,28 +53,22 @@ public class TvShowActivity extends VmAppCompatActivity<List<TvShow>, Integer> {
                 () -> paginator.onNext(new Object())));
 
         subscribeForData();
-        subscribeForLoadingState();
     }
 
     @Override
-    protected void subscribeForLoadingState() {
-        getDisposables().add(getViewModel().getLoadingIndicatorVisibility()
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(swipeRefreshLayout::setRefreshing, this::onSubscriptionError));
-    }
+    protected void subscribeForData() {
+        super.subscribeForData();
 
-    private void subscribeForData() {
-        swipeRefreshLayout.setRefreshing(true);
-
-        if (paginatorDisposable != null) paginatorDisposable.dispose();
+        if (paginatorDisposable != null) {
+            paginatorDisposable.dispose();
+        }
 
         ((TvShowViewModel) getViewModel()).resetPagination();
         tvShowAdapter.clearList();
 
         paginatorDisposable = paginator
                 .onBackpressureDrop()
-                .concatMap((Function<Object, Publisher<List<TvShow>>>) this::retrieveListPage)
+                .concatMap((Function<Object, Publisher<List<TvShow>>>) object -> retrieveListPage())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tvShowAdapter::addItemsToList, this::onSubscriptionError);
 
@@ -85,10 +76,10 @@ public class TvShowActivity extends VmAppCompatActivity<List<TvShow>, Integer> {
         paginator.onNext(new Object());
     }
 
-    private Publisher<List<TvShow>> retrieveListPage(Object object) {
+    private Publisher<List<TvShow>> retrieveListPage() {
         return ((TvShowViewModel) getViewModel()).get()
                 .subscribeOn(Schedulers.io())
-                .doFinally(() -> swipeRefreshLayout.setRefreshing(false))
+                .doFinally(() -> this.setLoadingState(false))
                 .toFlowable();
     }
 

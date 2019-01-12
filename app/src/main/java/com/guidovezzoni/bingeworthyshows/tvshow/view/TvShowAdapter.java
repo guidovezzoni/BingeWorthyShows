@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 //TODO a parent class could be extracted from here
+@SuppressWarnings({"WeakerAccess", "unused"})
 public class TvShowAdapter extends RecyclerView.Adapter<TvShowViewHolder> {
     private final List<TvShow> internalList;
 
