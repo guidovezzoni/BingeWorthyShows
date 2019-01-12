@@ -10,14 +10,24 @@ import java.util.List;
 import io.reactivex.Single;
 
 public class TvShowViewModel extends ImdbViewModel<List<TvShow>, Integer> {
-    private int paginationPage = 1;
+    private int paginationPage;
 
     public TvShowViewModel(TvShowService tvShowService, ConfigService configService) {
         super(tvShowService, configService);
+        resetPagination();
     }
 
     @Override
-    public Single<List<TvShow>> get(Integer integer) {
+    public Single<List<TvShow>> get(Integer params) {
+        return Single.error(new Exception("TvShowViewModel.get(Integer params) cannot be called"));
+    }
+
+    public void resetPagination() {
+        paginationPage = 1;
+    }
+
+    // TODO change of config will trigger a new repository request, is that expected?
+    public Single<List<TvShow>> get() {
         return super.get(paginationPage)
                 .flattenAsObservable(tvShows -> tvShows)
                 .flatMap(tvShow -> getConfigService().get(null)

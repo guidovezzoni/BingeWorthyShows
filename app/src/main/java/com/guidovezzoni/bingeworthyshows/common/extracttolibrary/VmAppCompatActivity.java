@@ -31,10 +31,10 @@ public class VmAppCompatActivity<M, P> extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progress_bar);
 
-        subscribeForLoadingState();
+//        subscribeForLoadingState();
     }
 
-    private void subscribeForLoadingState() {
+    protected void subscribeForLoadingState() {
         if (progressBar != null) {
             disposables.add(viewModel.getLoadingIndicatorVisibility()
                     .subscribeOn(Schedulers.computation())
