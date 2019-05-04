@@ -39,7 +39,8 @@ public class VmAppCompatActivity<M, P> extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progress_bar);
 
-        swipeRefreshLayout = findViewById(R.id.swipToRefresh);
+        //TODO it looks like there is some additional spinning after the data loading
+        swipeRefreshLayout = findViewById(R.id.swipeToRefresh);
         if (swipeRefreshLayout != null) {
             swipeRefreshLayout.setOnRefreshListener(this::subscribeForData);
         }
