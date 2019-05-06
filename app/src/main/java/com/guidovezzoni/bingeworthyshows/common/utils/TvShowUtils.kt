@@ -9,7 +9,7 @@ private val SIZE_ORIGINAL = "original"
 
 fun createFromResult(result: Result): TvShow {
     return TvShow(result.name,
-            result.overview,
+            result.overview ?: "",
             result.posterPath ?: "",
             result.voteAverage)
 }

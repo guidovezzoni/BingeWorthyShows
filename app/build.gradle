@@ -51,6 +51,7 @@ dependencies {
     // other 3rd party
     implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
     implementation "com.fernandocejas:arrow:$ARROW_VERSION"
+    implementation "com.github.guidovezzoni:repofactory:$REPOFACTORY_VERSION"
 
     // test
     testImplementation "junit:junit:$JUNIT_VERSION"
