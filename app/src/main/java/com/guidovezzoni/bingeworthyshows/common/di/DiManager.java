@@ -2,9 +2,9 @@ package com.guidovezzoni.bingeworthyshows.common.di;
 
 import com.guidovezzoni.bingeworthyshows.common.api.ApiHandler;
 import com.guidovezzoni.bingeworthyshows.common.api.MovieDbServiceApi;
+import com.guidovezzoni.bingeworthyshows.common.repofactory.CustomRepoFactory;
 import com.guidovezzoni.bingeworthyshows.config.ConfigService;
 import com.guidovezzoni.bingeworthyshows.tvshow.TvShowService;
-import com.guidovezzoni.repofactory.RepoFactory;
 import com.guidovezzoni.repofactory.RepoType;
 
 /**
@@ -17,7 +17,7 @@ public class DiManager {
     public DiManager(String baseUrl, String apiKey) {
         ApiHandler<MovieDbServiceApi> apiHandler = new ApiHandler<>(MovieDbServiceApi.class, baseUrl);
 
-        RepoFactory repoFactory = new RepoFactory();
+        CustomRepoFactory repoFactory = new CustomRepoFactory();
 
         ConfigService configService = new ConfigService(
                 repoFactory.createRepo(RepoType.SINGLE_LEVEL_CACHE, object -> apiHandler.getService().getConfiguration(apiKey)));
