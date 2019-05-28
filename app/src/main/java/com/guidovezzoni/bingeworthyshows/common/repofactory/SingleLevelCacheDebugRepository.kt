@@ -9,7 +9,6 @@ import io.reactivex.Single
 class SingleLevelCacheDebugRepository<M, P>(networkDataSource: DataSource<M, P>, cacheDataSource: MemoryCacheDataSource<M, P>)
     : SingleLevelCacheRepository<M, P>(networkDataSource, cacheDataSource) {
 
-
     override fun get(params: P?): Single<M> {
         Log.d(TAG, "get + $params")
         return super.get(params)

@@ -8,7 +8,7 @@ import retrofit2.Response
 
 class CustomRepoFactory : RepoFactory() {
 
-    override fun <M, P> createRepo(repoType: RepoType?, endPointGet: (P) -> Single<Response<M>>): Repository<M, P> {
+    override fun <M, P> createRepo(repoType: RepoType, endPointGet: (P) -> Single<Response<M>>): Repository<M, P> {
         return if (repoType == RepoType.SINGLE_LEVEL_CACHE) {
             val networkSource = createNetworkDataSource(endPointGet)
             val cachedDataSource = createCachedSource<M, P>()
@@ -18,4 +18,3 @@ class CustomRepoFactory : RepoFactory() {
         }
     }
 }
-
