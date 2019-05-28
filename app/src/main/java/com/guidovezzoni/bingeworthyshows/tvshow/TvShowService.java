@@ -1,11 +1,11 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
 
+import com.guidovezzoni.architecture.repository.Repository;
 import com.guidovezzoni.bingeworthyshows.common.baselibrary.Service;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
 import com.guidovezzoni.bingeworthyshows.common.utils.TvShowUtilsKt;
-import com.guidovezzoni.bingeworthyshows.tvshow.repository.TvShowRepository;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import io.reactivex.Single;
  * This class forwards data to the app from the repository, providing any logic if required.
  */
 public class TvShowService implements Service<List<TvShow>, Integer> {
-    private final TvShowRepository tvShowRepository;
+    private final Repository<ResultsReponse, Integer> tvShowRepository;
 
-    public TvShowService(TvShowRepository tvShowRepository) {
+    public TvShowService(Repository<ResultsReponse, Integer> tvShowRepository) {
         this.tvShowRepository = tvShowRepository;
     }
 
