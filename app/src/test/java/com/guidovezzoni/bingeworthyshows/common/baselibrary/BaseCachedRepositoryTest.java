@@ -1,5 +1,7 @@
 package com.guidovezzoni.bingeworthyshows.common.baselibrary;
 
+import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,11 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseCachedRepositoryTest {
+    private static final String NETWORK = "Network";
+    private static final Perishable<String> NETWORK_PERISHABLE = new Perishable<>(NETWORK);
+
+    private static final String CACHE = "cache";
+    private static final Perishable<String> CACHE_PERISHABLE = new Perishable<>(CACHE);
 
     @Mock
     private DataSource<String, Void> networkDataSource;
@@ -34,8 +41,8 @@ public class BaseCachedRepositoryTest {
     @Test
     public void whenGetWithCacheAvailableThenReturnCache() {
         TestObserver<String> testObserver = TestObserver.create();
-        when(cacheDataSource.get(null)).thenReturn(Maybe.just("cache"));
-        when(networkDataSource.getAndUpdate(null, cacheDataSource)).thenReturn(Maybe.just("Network"));
+        when(cacheDataSource.get(null)).thenReturn(Maybe.just(CACHE_PERISHABLE));
+        when(networkDataSource.getAndUpdate(null, cacheDataSource)).thenReturn(Maybe.just(NETWORK_PERISHABLE));
 
         sut.get(null).subscribe(testObserver);
 
@@ -48,7 +55,7 @@ public class BaseCachedRepositoryTest {
     public void whenGetWithCacheNotAvailableThenReturnFromNetwork() {
         TestObserver<String> testObserver = TestObserver.create();
         when(cacheDataSource.get(null)).thenReturn(Maybe.empty());
-        when(networkDataSource.getAndUpdate(null, cacheDataSource)).thenReturn(Maybe.just("Network"));
+        when(networkDataSource.getAndUpdate(null, cacheDataSource)).thenReturn(Maybe.just(NETWORK_PERISHABLE));
 
         sut.get(null)
                 .subscribe(testObserver);
@@ -76,7 +83,7 @@ public class BaseCachedRepositoryTest {
     @Test
     public void whenGetLatestThenReturnNetwork() {
         TestObserver<String> testObserver = TestObserver.create();
-        when(networkDataSource.get(null)).thenReturn(Maybe.just("Network"));
+        when(networkDataSource.get(null)).thenReturn(Maybe.just(NETWORK_PERISHABLE));
 
         sut.getLatest(null)
                 .subscribe(testObserver);
