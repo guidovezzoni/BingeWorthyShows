@@ -26,7 +26,7 @@ public class TvShowViewModel extends ImdbViewModel<List<TvShow>, Integer> {
         paginationPage = 1;
     }
 
-    // TODO change of config will trigger a new repository request, is that expected?
+    // TODO change of config will trigger a new repository request, should it let through and cached at repo level or cached here?
     public Single<List<TvShow>> get() {
         return super.get(paginationPage)
                 .flattenAsObservable(tvShows -> tvShows)

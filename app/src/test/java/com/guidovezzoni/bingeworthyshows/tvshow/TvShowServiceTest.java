@@ -1,13 +1,13 @@
 package com.guidovezzoni.bingeworthyshows.tvshow;
 
-import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.Result;
+import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.common.model.presentationlayer.TvShow;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.TvShowRepository;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -24,8 +24,13 @@ public class TvShowServiceTest {
 
     @Mock
     private TvShowRepository tvShowRepository;
-    @InjectMocks
+
     private TvShowService sut;
+
+    @Before
+    public void setUp() {
+        sut = new TvShowService(tvShowRepository);
+    }
 
     @Test
     public void whenGetThenRepositoryInvoked() {
@@ -33,10 +38,12 @@ public class TvShowServiceTest {
 
         Result result = new Result();
         result.setName("Agents of Shield");
+        result.setOverview("Inhumans");
         resultsReponse.getResults().add(result);
 
         result = new Result();
         result.setName("Gotham");
+        result.setOverview("Batman");
         resultsReponse.getResults().add(result);
 
         TestObserver<List<TvShow>> testObserver = TestObserver.create();

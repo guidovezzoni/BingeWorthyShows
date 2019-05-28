@@ -4,6 +4,7 @@ import com.guidovezzoni.bingeworthyshows.common.baselibrary.BaseViewModel;
 import com.guidovezzoni.bingeworthyshows.common.baselibrary.Service;
 import com.guidovezzoni.bingeworthyshows.config.ConfigService;
 
+@SuppressWarnings("WeakerAccess")
 public class ImdbViewModel<M, P> extends BaseViewModel<M, P> {
     private final ConfigService configService;
 

@@ -1,11 +1,12 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.repository;
 
+import com.guidovezzoni.bingeworthyshows.common.base.Perishable;
 import com.guidovezzoni.bingeworthyshows.common.model.datalayer.ResultsReponse;
 import com.guidovezzoni.bingeworthyshows.tvshow.repository.source.TvShowsNetworkSource;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -20,16 +21,20 @@ public class TvShowRepositoryTest {
 
     @Mock
     private TvShowsNetworkSource tvShowsNetworkSource;
-    @InjectMocks
+
     private TvShowRepository sut;
 
+    @Before
+    public void setUp() {
+        sut = new TvShowRepository(tvShowsNetworkSource);
+    }
 
     @Test
     public void whenGetThenSourceInvoked() {
-        ResultsReponse resultsReponse = new ResultsReponse();
+        Perishable<ResultsReponse> responsePerishable = new Perishable<>(new ResultsReponse());
 
         TestObserver<ResultsReponse> testObserver = TestObserver.create();
-        when(tvShowsNetworkSource.get(2)).thenReturn(Maybe.just(resultsReponse));
+        when(tvShowsNetworkSource.get(2)).thenReturn(Maybe.just(responsePerishable));
 
         sut.get(2)
                 .subscribe(testObserver);
