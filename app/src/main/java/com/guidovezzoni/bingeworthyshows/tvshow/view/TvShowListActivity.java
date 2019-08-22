@@ -1,12 +1,10 @@
 package com.guidovezzoni.bingeworthyshows.tvshow.view;
 
-import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 
 import com.guidovezzoni.bingeworthyshows.MainApplication;
 import com.guidovezzoni.bingeworthyshows.R;
@@ -41,7 +39,6 @@ public class TvShowListActivity extends AppCompatActivity {
     private PublishProcessor<Object> paginator = PublishProcessor.create();
     private Disposable paginatorDisposable;
 
-    private ProgressBar progressBar;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private TvShowAdapter tvShowAdapter;
@@ -64,7 +61,6 @@ public class TvShowListActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(this::subscribeForData);
 
 
-        progressBar = findViewById(R.id.progress_bar);
         RecyclerView mainRecyclerView = findViewById(R.id.list);
 
         tvShowAdapter = new TvShowAdapter(this::itemClick);
@@ -105,7 +101,7 @@ public class TvShowListActivity extends AppCompatActivity {
 
         paginatorDisposable = paginator
                 .onBackpressureDrop()
-                .concatMap((Function<Object, Publisher<List<TvShow>>>) this::retrieveListPage)
+                .concatMap((Function<Object, Publisher<List<TvShow>>>) object -> retrieveListPage())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(tvShowAdapter::addItemsToList, this::onError);
 
@@ -113,7 +109,7 @@ public class TvShowListActivity extends AppCompatActivity {
         paginator.onNext(new Object());
     }
 
-    private Publisher<List<TvShow>> retrieveListPage(Object object) {
+    private Publisher<List<TvShow>> retrieveListPage() {
         return tvShowViewModel.get()
                 .subscribeOn(Schedulers.io())
                 .doFinally(() -> swipeRefreshLayout.setRefreshing(false))

@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+@SuppressWarnings("WeakerAccess")
 public class TvShowFragment extends Fragment {
     private static final String ARG_SHOW = "SHOW";
 
